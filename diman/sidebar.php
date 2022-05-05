@@ -1,5 +1,11 @@
 <!-- Preloader -->
-
+<?php 
+include "function/fsetting.php";
+$sql_rat = mysqli_query($conn, "SELECT * FROM tbl_rat where id_rat = '$set'");
+while ($rowrat = mysqli_fetch_array($sql_rat)){
+    $jrat = $rowrat['judul_rat'];
+}
+?>
 
 <!-- Navbar -->
 <nav class="main-header navbar navbar-expand navbar-white navbar-light">
@@ -11,6 +17,10 @@
         <li class="nav-item d-none d-sm-inline-block">
             <a href="home.php" class="nav-link">Home</a>
         </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a href="#" class="nav-link"><?php echo $jrat ?></a>
+        </li>
+
     </ul>
 
     <!-- Right navbar links -->
@@ -92,7 +102,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form action="function.php?act=ubahpwd" method="POST" enctype="multipart/form-data">
+                <form action="function/fuser.php?act=ubahpwd" method="POST" enctype="multipart/form-data">
                     <?php
                                             $id_user = $_SESSION['id_user'];
                                             $query1 = "SELECT * FROM tbl_user WHERE id_user='$id_user'";
@@ -106,10 +116,10 @@
                         <input type="text" class="form-control" name="Username" value="<?php echo $row1['username']; ?>"
                             readonly>
                         <h5 class="modal-title">Password</h5>
-                        <input type="password" class="form-control" name="pass1" id="pass1"
+                        <input type="password" class="form-control" name="pass1"
                             placeholder="Masukan Password Baru">
                         <h5 class="modal-title">Ulangi Password</h5>
-                        <input type="password" class="form-control" name="pass2" id="pass2"
+                        <input type="password" class="form-control" name="pass2"
                             placeholder="Ulangi Password Baru">
 
                     </div>

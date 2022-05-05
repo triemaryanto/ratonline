@@ -14,6 +14,7 @@ if (isset($_POST['search'])) {
 	  $_SESSION['username'] = $row['username'];
 	  $_SESSION['nama'] = $row['nama'];
       $_SESSION['jabatan'] = $row['jabatan'];
+      $_SESSION['id_cabang'] = $row['id_cabang'];
   }
 
     if($cek){	

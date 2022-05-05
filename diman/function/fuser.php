@@ -54,4 +54,23 @@ elseif($_GET['act']=='update'){
                 }	
                 
             }
+            elseif($_GET['act']=='ubahpwd'){
+                    $id_user = $_POST['id_user'];
+                    $username = $_POST['username'];
+                    $pass1 = $_POST['pass1'];
+                    $pass2 = $_POST['pass2'];
+                    if(empty($pass1) && empty($pass2)){
+                        
+                        echo "<script>alert('Data Kosong.');window.location='../home';</script>";
+                    }else{
+                        if($pass1==$pass2){
+                            mysqli_query($conn,"UPDATE tbl_user SET password='$pass2' where id_user='$id_user'");
+                            echo "<script>alert('Password Berhasil di Ubah.');window.location='../home';</script>";
+                        }
+                        else{
+                            echo "<script>alert('Password Tidak Sama. ');window.location='../home';</script>";
+                        }
+                    }
+                    
+            }
 ?>

@@ -219,8 +219,8 @@ $chmod = $chmenu7;
                                                                                     
                                                                                     <?php }?>
                                                                                     <option
-                                                                                        value="null">
-                                                                                        --
+                                                                                        value="0">
+                                                                                        All Wilayah
                                                                                     </option>
                                                                                     <?php 
                                                                                             $cab = mysqli_query($conn, "SELECT * FROM tbl_cabang");
@@ -354,7 +354,7 @@ $chmod = $chmenu7;
                                                 class="text-red"></span>Wilayah</label>
                                         <div class="col-sm-8">
                                             <select class="form-control form-control-sm" name="id_cabang">
-                                            <option value="kosong">--</option>
+                                            <option value="0">All Wilayah</option>
                                                 <?php
                                                                                            $cab = mysqli_query($conn, "SELECT * FROM tbl_cabang");
                                                                                             while($hcab = mysqli_fetch_array($cab)){

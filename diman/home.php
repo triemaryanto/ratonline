@@ -43,7 +43,7 @@ $chmod = $chmenu1;
 <body class="hold-transition sidebar-mini layout-fixed">
     <div class="wrapper">
 
-        
+
         <!-- /.navbar -->
 
         <!-- Main Sidebar Container -->
@@ -60,6 +60,7 @@ $chmod = $chmenu1;
                         <div class="col-sm-6">
                             <h1 class="m-0">Dashboard</h1>
                         </div><!-- /.col -->
+                        
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
                                 <li class="breadcrumb-item"><a href="home.php">Home</a></li>
@@ -77,6 +78,28 @@ $chmod = $chmenu1;
             <section class="content">
                 <div class="container-fluid">
                     <!-- Small boxes (Stat box) -->
+                    <?php if ($chmod >= 4 || $_SESSION['jabatan'] == 'admin') { ?>
+                    <form action="function/fhome.php" method="POST">
+                        <a>Setting RAT</a>
+                            <select name="rat" class="form-control-sm" >
+                                <option value=0>--</option> 
+                                <?php 
+                                                                                            $query2 = mysqli_query($conn, "SELECT * FROM tbl_rat");
+                                                                                            while($row2 = mysqli_fetch_array($query2)){
+                                                                                    ?>
+                                <option value="<?=$row2['id_rat']; ?>">
+                                    <?php echo $row2['judul_rat']; ?>
+                                </option>
+                                <?php 
+                            }?>
+                            </select>
+
+                            <input type="submit" name="setting" class="btn btn-primary" value="setting">
+                            &nbsp;<a>*Mempengaruhi Semua Tampilan</a>
+                        </form>
+                        <br>
+                        <?php } else {
+														} ?>
                     <div class="row">
                         <div class="col-lg-3 col-6">
                             <!-- small box -->
@@ -150,7 +173,8 @@ $chmod = $chmenu1;
                         <section class="col-lg-12 connectedSortable">
                             <!-- Custom tabs (Charts with tabs)-->
                             <div class="card">
-                               <iframe style='pointer-events: none;' class="responsive-iframe" src="../anggota/index" width="100%" height="1000px"></iframe>
+                                <iframe style='pointer-events: none;' class="responsive-iframe" src="../anggota/index"
+                                    width="100%" height="1000px"></iframe>
                             </div>
                             <!-- /.card -->
                         </section>
@@ -162,11 +186,11 @@ $chmod = $chmenu1;
             <?php
 					} else {
 					?>
-    <div class="callout callout-danger">
-        <h4>Info</h4>
-        <b>Hanya user tertentu yang dapat mengakses halaman ini .</b>
-    </div>
-    <?php
+            <div class="callout callout-danger">
+                <h4>Info</h4>
+                <b>Hanya user tertentu yang dapat mengakses halaman ini .</b>
+            </div>
+            <?php
 					}
 					?>
             <!-- /.content -->

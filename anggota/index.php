@@ -2,7 +2,11 @@
 include "koneksi.php";
 error_reporting (E_ALL ^ E_NOTICE);
 $sql = mysqli_query ($conn, "SELECT * FROM tbl_materi");
-$sql2 =mysqli_query($conn,"SELECT * FROM tbl_soal ORDER BY id_soal asc ");
+$setting = mysqli_query($conn, "SELECT * FROM tbl_setting");
+while ($row3 = mysqli_fetch_array($setting)){
+    $id_rat = $row3['id_rat'];
+    }
+$sql2 =mysqli_query($conn,"SELECT * FROM tbl_soal where id_rat='$id_rat' ORDER BY id_soal asc ");
 session_start();
 if (!isset($_SESSION['username'])) {
     header("Location: ../absensi/");
@@ -155,7 +159,7 @@ if (!isset($_SESSION['username'])) {
                         <div class="form-group pb-1 text-left">
                         
                             <p style="color:black"><?php echo $no; ?>.<b> <?php echo $data['soal']; ?> </b></p>
-                            <?php $jawaban = mysqli_query($conn,"SELECT * FROM tbl_jawaban where id_anggota = '$_SESSION[username]' AND id_soal = '$id' ");
+                            <?php $jawaban = mysqli_query($conn,"SELECT * FROM tbl_jawaban where id_anggota = '$_SESSION[username]' AND id_soal = '$id' AND id_rat = '$id_rat'");
                              $result=mysqli_fetch_array($jawaban);
                              ?>
                             <?php if($data['kategori']=='ganda') {?>
