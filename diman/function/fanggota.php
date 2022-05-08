@@ -3,11 +3,8 @@ include "koneksi.php";
 error_reporting(E_ALL ^ E_NOTICE);
 session_start();
 $id_cabang = $_SESSION['id_cabang'];
-if($id_cabang == '0'){
-$anggota = mysqli_query($conn,"SELECT * FROM tbl_anggota INNER JOIN tbl_cabang ON tbl_anggota.id_cabang = tbl_cabang.id_cabang");
-}else{
-  $anggota = mysqli_query($conn,"SELECT * FROM tbl_anggota INNER JOIN tbl_cabang ON tbl_anggota.id_cabang = tbl_cabang.id_cabang where tbl_anggota.id_cabang=$id_cabang");
-}
+
+
 if(isset($_POST['tambah'])){
     $username = $_POST ['username'];
     $nama = $_POST ['nama'];

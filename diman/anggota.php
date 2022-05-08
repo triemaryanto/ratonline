@@ -1,6 +1,7 @@
 <?php
 include "koneksi.php";
 include "function/fanggota.php";
+error_reporting(E_ALL ^ E_NOTICE);
 session_start();
 if (!isset($_SESSION['jabatan'])) {
     header("Location: index.php");
@@ -8,6 +9,15 @@ if (!isset($_SESSION['jabatan'])) {
 $jabatan = $_SESSION['jabatan'];
 include "config_chmod.php";
 $chmod = $chmenu5;
+if(isset($_POST['caridata'])) {
+	$cari = $_POST['cari'];
+    if($cari==0){
+        $anggota = mysqli_query($conn,"SELECT * FROM tbl_anggota INNER JOIN tbl_cabang ON tbl_anggota.id_cabang = tbl_cabang.id_cabang");
+    }else{
+        $anggota = mysqli_query($conn,"SELECT * FROM tbl_anggota INNER JOIN tbl_cabang ON tbl_anggota.id_cabang = tbl_cabang.id_cabang where tbl_anggota.id_cabang = $cari");
+    }
+  
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -76,6 +86,35 @@ $chmod = $chmenu5;
                                             data-target="#tambah"><i class="fa fa-book"></i> Tambah Anggota</a>
                                         <?php } else {
 														} ?>
+                                                        <div class="card card-primary">
+                                
+                                <!-- /.card-header -->
+                                <!-- form start -->
+                                <form action="#" method="POST" enctype="multipart/form-data">
+                                    <div class="card-body">
+                                        <div class="form-group">
+                                            <label>Cari Wilayah :</label>
+                                            <select class="form-control form-control-sm" name="cari">
+                                            <option value="0">All Wilayah</option>
+                                                <?php
+                                                                                           $cab = mysqli_query($conn, "SELECT * FROM tbl_cabang");
+                                                                                            while($hcab = mysqli_fetch_array($cab)){
+                                                                                    ?>
+                                                
+                                                <option value="<?=$hcab['id_cabang']; ?>">
+                                                    <?php echo $hcab['nama_cabang']; ?>
+                                                </option>
+                                                <?php }?>
+                                            </select>
+                                        </div>
+                                        <!-- /.card-body -->
+                                        <div class="form-group">
+                                        <button type="submit" name="caridata" class="btn btn-primary">Submit</button>
+                                    </div>
+                                    </div>
+                                    
+                                </form>
+                            </div>
                                     </div>
                                     <table id="example1" class="table table-bordered table-striped">
                                         <thead>
@@ -93,7 +132,11 @@ $chmod = $chmenu5;
                                         <tbody>
                                             <?php
 										$no = 0 ;
-										while($row = mysqli_fetch_array($anggota))
+										
+                                        if ($anggota==null){
+                                                echo "Pilih Wilayah Dahulu !";
+                                        }else{
+                                            while($row = mysqli_fetch_array($anggota))
 										    {
 										$no++;
 									?>
@@ -277,6 +320,7 @@ $chmod = $chmenu5;
                                                                     </div>
                                                                     <?php
 																		}
+                                                                    }
 																		?>
                                                                 </form>
                                                             </div>

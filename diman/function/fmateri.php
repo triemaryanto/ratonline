@@ -1,6 +1,11 @@
 <?php
 include "koneksi.php";
-$materi = mysqli_query($conn,"SELECT * FROM tbl_materi");
+$setting = mysqli_query($conn,"SELECT * FROM tbl_setting");
+while($row = mysqli_fetch_array($setting))
+	{
+        $status = $row['id_rat']; 
+    }
+$materi = mysqli_query($conn,"SELECT * FROM tbl_materi where id_rat = $status");
 error_reporting(E_ALL ^ E_NOTICE);
 
 if(isset($_POST['tambah'])){
@@ -10,7 +15,7 @@ if(isset($_POST['tambah'])){
      $judul_materi = trim($_POST['judul_materi']);
      $file_materi = trim($_FILES['file_materi']['name']);
     
-     $sql = mysqli_query($conn, "INSERT INTO tbl_materi (judul_materi) VALUES ('$judul_materi')");
+     $sql = mysqli_query($conn, "INSERT INTO tbl_materi (judul_materi, id_rat) VALUES ('$judul_materi',$status)");
     
      //dapatkan id terkahir
      $query = mysqli_query($conn,"SELECT id_materi FROM tbl_materi ORDER BY id_materi DESC LIMIT 1");
@@ -24,11 +29,11 @@ if(isset($_POST['tambah'])){
      //update nama file di database
      mysqli_query($conn,"UPDATE tbl_materi SET file_materi='$file' WHERE id_materi='$data[id_materi]' ");
     
-     header('location:../materi.php?pesan=upload-berhasil');
+     echo "<script>alert('Data berhasil ditambah.');window.location='../materi.php';</script>";
     
     } else
     {
-     echo "Gagal Upload File Bukan PDF! <a href='../materi.php'> Kembali </a>";
+      echo "<script>alert('Gagal Upload File Bukan PDF !.');window.location='../materi.php';</script>";
     }
     }
     elseif($_GET['act']=='delete'){
@@ -52,38 +57,45 @@ if(isset($_POST['tambah'])){
             
         }
         elseif($_GET['act']=='update'){
-                    
+          $judul_materi     = trim($_POST['judul_materi']);
+          $id_materi = $_POST['id_materi'];
+          $file ='../file/'.$_POST['file_materi'];
             $tipe_file = $_FILES['file_materi']['type']; //mendapatkan mime type
+            if(empty($file)){
+              $judul_materi     = trim($_POST['judul_materi']);
+              $id_materi = $_POST['id_materi'];
+              $sql = "UPDATE tbl_materi SET judul_materi = '$judul_materi' WHERE id_materi = $id_materi ";
+             mysqli_query($conn,$sql);
+             echo "<script>alert('Data berhasil dirubah.');window.location='../materi.php';</script>";
+            }else{
             if ($tipe_file == "application/pdf") //mengecek apakah file tersebu pdf atau bukan
             {
-             $judul_materi     = trim($_POST['judul_materi']);
-             $id_materi = $_POST['id_materi'];
-             $file ='../file/'.$_POST['file_materi'];
-             unlink($file);
+             
+             
              $file_materi = trim($_FILES['file_materi']['name']);
             
-             $sql = "UPDATE tbl_materi SET judul_materi = '$judul_materi'";
+             $sql = "UPDATE tbl_materi SET judul_materi = '$judul_materi' WHERE id_materi = $id_materi ";
              mysqli_query($conn,$sql); //simpan data judul_materi dahulu untuk mendapatkan id
+                         //dapatkan id terkahir
+                         $query = mysqli_query($conn,"SELECT * FROM tbl_materi where id_materi= $id_materi");
+                         $data  = mysqli_fetch_array($query);
+                         $hapus = '../file/'.$data['file_materi'];
+                         unlink($hapus);
             
-             //dapatkan id terkahir
-             $query = mysqli_query($conn,"SELECT id_materi FROM tbl_materi ORDER BY id_materi DESC LIMIT 1");
-             $data  = mysqli_fetch_array($query);
-            $no = 0;
-            $no++;
              //mengganti nama pdf
              $file       = uniqid() . '.pdf';
              $file_temp = $_FILES['file_materi']['tmp_name']; //data temp yang di upload
              $folder    = "../file";
              move_uploaded_file($file_temp, "$folder/$file"); //fungsi upload
              //update nama file di database
-             mysqli_query($conn,"UPDATE tbl_materi SET file_materi='$file' WHERE id_materi='$data[id_materi]' ");
+             mysqli_query($conn,"UPDATE tbl_materi SET file_materi='$file' WHERE id_materi=$id_materi ");
              
-             header('location:../materi.php?pesan=upload-berhasil');
+            echo "<script>alert('Data berhasil dihapus.');window.location='../materi.php';</script>";
             
             } else
             {
-             echo "Gagal Upload File Bukan PDF! <a href='../materi.php'> Kembali </a>";
+              echo "<script>alert('Gagal Upload File Bukan PDF !.');window.location='../materi.php';</script>";
             }
-
-            }
+          }
+          }
 ?>

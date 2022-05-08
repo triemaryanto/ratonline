@@ -5,7 +5,6 @@ error_reporting(E_ALL ^ E_NOTICE);
 if(isset($_POST['tambah'])){
     $username = $_POST ['username'];
     $nama = $_POST ['nama'];
-    $id_cabang = $_POST['id_cabang'];
     $jab = $_POST['jab'];
     $pass = '123456'; 
     $sql= mysqli_query($conn, "SELECT * FROM tbl_user where username='$username'");
@@ -13,7 +12,7 @@ if(isset($_POST['tambah'])){
     if($cek){
         echo"<script>alert('Data Username Sudah ada -> $username');window.location='../user.php';</script>";
     }else{
-        $sql1 = mysqli_query($conn, "INSERT INTO tbl_user (nama, username, password, jabatan, id_cabang) VALUES ('$nama', '$username','$pass','$jab',$id_cabang)");
+        $sql1 = mysqli_query($conn, "INSERT INTO tbl_user (nama, username, password, jabatan) VALUES ('$nama', '$username','$pass','$jab')");
         echo "<script>alert('Data berhasil ditambah.');window.location='../user';</script>";
     }
 }
@@ -26,7 +25,7 @@ elseif($_GET['act']=='update'){
     $pass = $_POST['pass'];
       
           // jalankan query UPDATE berdasarkan ID yang produknya kita edit
-           $query  = mysqli_query($conn, "UPDATE tbl_user SET nama='$nama', username='$username', password='$pass', jabatan='$jab', id_cabang= $id_cabang WHERE id_user ='$id_user'");
+           $query  = mysqli_query($conn, "UPDATE tbl_user SET nama='$nama', username='$username', password='$pass', jabatan='$jab' WHERE id_user ='$id_user'");
           // periska query apakah ada error
           if(!$query){
                 die ("Query gagal dijalankan: ".mysqli_errno($conn).

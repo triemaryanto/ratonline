@@ -204,41 +204,6 @@ $chmod = $chmenu7;
                                                                         <div class="row">
                                                                             <label
                                                                                 class="col-sm-3 control-label text-right"><span
-                                                                                    class="text-red"></span>Wilayah</label>
-                                                                            <div class="col-sm-8">
-                                                                                <select id="soal" name="id_cabang"
-                                                                                    class="form-control form-control-sm">
-                                                                                    <?php
-                                                                                    $cab1 = mysqli_query($conn, "SELECT * FROM tbl_user INNER JOIN tbl_cabang ON tbl_user.id_cabang = tbl_cabang.id_cabang WHERE tbl_user.id_user='$id_user'");
-                                                                                    while($cab2 = mysqli_fetch_array($cab1)){
-                                                                                    ?>
-                                                                                    <option
-                                                                                        value="<?=$cab2['id_cabang']; ?>">
-                                                                                        <?php echo $cab2['nama_cabang']; ?>
-                                                                                    </option>
-                                                                                    
-                                                                                    <?php }?>
-                                                                                    <option
-                                                                                        value="0">
-                                                                                        All Wilayah
-                                                                                    </option>
-                                                                                    <?php 
-                                                                                            $cab = mysqli_query($conn, "SELECT * FROM tbl_cabang");
-                                                                                            while($hcab = mysqli_fetch_array($cab)){
-                                                                                    ?>
-                                                                                    <option
-                                                                                        value="<?=$hcab['id_cabang']; ?>">
-                                                                                        <?php echo $hcab['nama_cabang']; ?>
-                                                                                    </option>
-                                                                                    <?php }?>
-                                                                                </select>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="form-group">
-                                                                        <div class="row">
-                                                                            <label
-                                                                                class="col-sm-3 control-label text-right"><span
                                                                                     class="text-red"></span>Jabatan</label>
                                                                             <div class="col-sm-8">
                                                                                 <select name="jab"
@@ -345,26 +310,6 @@ $chmod = $chmenu7;
                                             <span class="text-red"></span></label>
                                         <div class="col-sm-8">
                                             <input type="text" class="form-control" name="nama" value="" id="nama">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="row">
-                                        <label class="col-sm-3 control-label text-right"><span
-                                                class="text-red"></span>Wilayah</label>
-                                        <div class="col-sm-8">
-                                            <select class="form-control form-control-sm" name="id_cabang">
-                                            <option value="0">All Wilayah</option>
-                                                <?php
-                                                                                           $cab = mysqli_query($conn, "SELECT * FROM tbl_cabang");
-                                                                                            while($hcab = mysqli_fetch_array($cab)){
-                                                                                    ?>
-                                                
-                                                <option value="<?=$hcab['id_cabang']; ?>">
-                                                    <?php echo $hcab['nama_cabang']; ?>
-                                                </option>
-                                                <?php }?>
-                                            </select>
                                         </div>
                                     </div>
                                 </div>
